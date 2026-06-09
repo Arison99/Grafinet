@@ -41,3 +41,82 @@ Next:
 - Install dependencies and run both services locally.
 - Create feature branches and incremental commits per assignment rubric.
 - Prepare GitHub issues, milestone, PR flow, and merge conflict documentation.
+
+### Phase 2: Authentication Added
+Status: Complete
+
+Completed:
+- Added backend auth service with signup and login logic.
+- Added auth API endpoints:
+  - POST /api/auth/signup
+  - POST /api/auth/login
+- Added password hashing and user persistence in backend/data/users.json.
+- Added frontend authentication form with signup/login mode toggle.
+- Added session handling in UI (login state + logout).
+- Gated lookup workflow to authenticated users.
+
+Validation:
+- Backend dependency install completed with email validation package.
+- Backend compile and import checks passed.
+- Auth service functional check passed for signup and login.
+- Frontend production build passed with auth UI changes.
+
+Notes:
+- Runtime auth data file backend/data/users.json is ignored in .gitignore.
+
+### Phase 3: Token-Protected API Access
+Status: Complete
+
+Completed:
+- Added bearer-token validation dependency for protected APIs.
+- Protected lookup routes with authentication checks:
+  - GET /api/ip/{ip}
+  - GET /api/map/point/{ip}
+- Updated auth service to persist issued tokens and validate incoming tokens.
+- Updated frontend API layer to send Authorization header for protected calls.
+- Updated frontend lookup flow to use session token and logout on token failure.
+
+Validation:
+- Backend compile and token-validation smoke checks passed.
+- Frontend production build passed after auth header changes.
+
+### Phase 4: Server-Side Logout Revocation
+Status: Complete
+
+Completed:
+- Added backend logout endpoint:
+  - POST /api/auth/logout
+- Added server-side token revocation in auth service.
+- Updated frontend logout flow to call backend logout endpoint before clearing local session.
+
+Validation:
+- Backend compile check passed after logout endpoint integration.
+- Token revocation smoke test passed.
+- Frontend production build passed after logout API wiring.
+
+### Phase 5: QA Issue Pack and Automated Tests
+Status: Complete
+
+Completed:
+- Created assignment-ready issue pack (5 issues) and one milestone draft under docs/qa/issues.
+- Added backend automated test suite for authentication and protected routes.
+- Added backend test dependencies file.
+- Added test execution README.
+
+Validation:
+- Backend test dependencies installed successfully.
+- Automated tests executed successfully: 3 passed.
+
+### Phase 6: Git Branch and Commit Execution Plan
+Status: Complete
+
+Completed:
+- Added explicit command-by-command git execution plan for:
+  - feature-ui branch commits
+  - feature-enhancement branch commits
+  - PR creation flow
+  - intentional merge conflict demonstration
+- Added commit message map to reach assignment minimum commit count.
+
+Reference:
+- docs/sprint-1/git-commands-plan.md
