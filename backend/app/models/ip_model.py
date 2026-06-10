@@ -21,15 +21,28 @@ class IPLookupResponse(BaseModel):
     found: bool
     ip: str
     message: str | None = None
+
+    # Prefix database (queried by IP)
     allocation: str | None = None
+    allocation_registry: str | None = None
     country: str | None = None
-    asn: ASNModel | None = None
     prefix: str | None = None
-    latitude: float | None = None
-    longitude: float | None = None
-    ix: str | None = None
+    prefix_origins: list[int] | None = None
     prefix_bogon: bool | None = None
     rpki_status: str | None = None
+    ix: Any | None = None
+
+    # Prefix-selected ASN context
+    asn: ASNModel | None = None
+
+    # ASN database (queried by ASN selected from prefix record)
+    asn_db: dict[str, Any] | None = None
+    geo_asn: dict[str, Any] | None = None
+    geo_country: dict[str, Any] | None = None
+    geo_city: dict[str, Any] | None = None
+
+    latitude: float | None = None
+    longitude: float | None = None
     anomaly: AnomalyModel | None = None
 
 

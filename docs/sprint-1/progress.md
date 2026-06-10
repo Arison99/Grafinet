@@ -163,3 +163,64 @@ Validation:
 
 Current blocker:
 - GitHub CLI auth token is invalid, so PRs cannot be auto-created via gh until re-authenticated.
+
+### Phase 10: Frontend Guidance UX (Onboarding + Recommendations)
+Status: Complete
+
+Completed:
+- Added first-run onboarding modal explaining Grafinet purpose and usage flow.
+- Added persistent onboarding preference so users can hide repeat tour prompts.
+- Added contextual recommendation panel to reduce user confusion with:
+  - quick lookup actions for known resolver IPs
+  - first-run guidance when no lookup has run yet
+  - targeted recommendations for error and no-result states
+  - risk guidance based on IPNetDB signals (RPKI invalid, bogon prefix, anomaly reasons)
+- Added "How it works" and "View onboarding" entry points for re-opening guidance anytime.
+
+Validation:
+- Frontend builds successfully after new component and styling integration.
+
+### Phase 11: Tailwind Migration and Professional UI Refresh
+Status: Complete
+
+Completed:
+- Migrated frontend styling to Tailwind CSS with PostCSS pipeline.
+- Added Tailwind config and content scanning for React source.
+- Replaced legacy global stylesheet rules with Tailwind base/utilities.
+- Refactored UI components to utility classes:
+  - Home page shell, header, session status, responsive content grid
+  - Auth form, IP search bar, ASN detail panel
+  - Onboarding modal and guided recommendation panel
+  - Map shell sizing and responsive layout polish
+- Upgraded visual quality with cleaner spacing, stronger hierarchy, and professional card/button treatment.
+
+Validation:
+- Frontend production build passed after Tailwind migration.
+
+### Phase 12: Multi-Page Frontend Expansion
+Status: Complete
+
+Completed:
+- Added React Router navigation with top-level routes for:
+  - Overview page
+  - Workspace page
+  - Guide page
+  - IPNetDB data reference page
+  - Not-found fallback page
+- Added reusable top navigation bar for improved app discoverability.
+- Added new professional content pages to support onboarding and user understanding before entering the live workspace.
+
+Validation:
+- Frontend build passed after route and page integration.
+
+### Phase 13: Premium UI Polish (Motion + Iconography)
+Status: Complete
+
+Completed:
+- Added lightweight page-level animation utilities (fade-in and fade-up) with stagger timing.
+- Added iconography across navigation, landing, guide, data reference, onboarding, and 404 pages.
+- Refined CTA buttons and visual cues to improve scanning and perceived quality.
+- Kept motion subtle and performant to preserve readability and avoid distraction.
+
+Validation:
+- Frontend production build passed after animation and icon enhancements.

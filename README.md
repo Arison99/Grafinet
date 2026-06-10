@@ -1,39 +1,84 @@
 # Grafinet: Internet Routing Visualization System
 
-Grafinet is a web-based system that visualizes internet routing information from IPNetDB datasets. Users can query an IP address, inspect ASN and prefix ownership, view routing location on a world map, and check simple route anomaly rules.
+Grafinet is a full-stack web application for exploring internet routing data. It allows users to look up IP addresses, inspect Autonomous System (ASN) ownership, view route context on an interactive world map, and review routing risk signals (for example bogon and RPKI-related indicators).
 
-## Project Structure
+## Project Description
 
-- backend: FastAPI API for IP lookup and map point responses
-- frontend: React + Leaflet web UI
-- docs/sprint-1: sprint plan and execution documents
+This project was developed for Software Evolution coursework to demonstrate practical use of:
 
-## Installation
+- Incremental development through meaningful commits
+- Branching and pull request workflows
+- Issue tracking and milestone-based planning
+- Ongoing feature evolution across backend and frontend modules
 
-### Backend
+Core stack:
 
-1. Open a terminal in backend
-2. Create and activate a virtual environment
-3. Install dependencies:
-   - pip install -r requirements.txt
-4. Run API:
-   - uvicorn app.main:app --reload --port 8000
+- Backend: FastAPI (Python)
+- Frontend: React + Vite + Leaflet + Tailwind CSS
+- Routing data: IPNetDB MMDB datasets
 
-### Frontend
+## Component Documentation
 
-1. Open a second terminal in frontend
-2. Install dependencies:
-   - npm install
-3. Run web app:
-   - npm run dev
+- Backend documentation: [backend/README.md](backend/README.md)
+- Frontend documentation: [frontend/README.md](frontend/README.md)
 
-## Usage
+## Installation Instructions
 
-1. Start backend on port 8000
-2. Start frontend on port 5173
-3. Open the frontend URL in browser
-4. Search for 8.8.8.8, 1.1.1.1, and 9.9.9.9, then include one invalid IP test to capture error-handling evidence
-5. Review ASN, prefix, and anomaly details in the panel and map popup
+### Prerequisites
+
+- Python 3.11+
+- Node.js 18+
+- npm 9+
+
+### 1) Clone Repository
+
+```bash
+git clone https://github.com/Arison99/Grafinet.git
+cd Grafinet
+```
+
+### 2) Backend Setup
+
+```bash
+cd backend
+python -m venv .venv
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+Run backend:
+
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+### 3) Frontend Setup
+
+Open a second terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend runs on `http://localhost:5173` by default.
+
+## Usage Instructions
+
+1. Start backend (`http://localhost:8000`) and frontend (`http://localhost:5173`).
+2. Open the app in your browser and authenticate.
+3. Run IP lookups such as:
+   - `8.8.8.8`
+   - `1.1.1.1`
+   - `9.9.9.9`
+4. Review returned routing details:
+   - ASN number and organization
+   - Prefix and allocation context
+   - Map location and route hop visualization
+   - Route/anomaly indicators
+5. Optional: run country ASN search and route simulation to explore cross-country peering scenarios.
 
 ## Contributors
 
@@ -45,8 +90,8 @@ Internet information provided by IPNetDB.com
 
 ## Merge Conflict Resolution Process
 
-1. Branches used: conflict-a and conflict-b
-2. File with conflict: README.md
-3. Conflict observed during merge: same Usage step edited in both branches
-4. Resolution decision: combined both intents into one instruction that covers sample valid IP tests and invalid input validation
-5. Verification after merge: README rendered correctly and conflict markers were removed before committing
+1. Branches used: `conflict-a` and `conflict-b`
+2. File with conflict: `README.md`
+3. Conflict trigger: overlapping edits in usage guidance
+4. Resolution: merged both intents into a single verified instruction flow
+5. Verification: conflict markers removed and README rendered correctly after commit

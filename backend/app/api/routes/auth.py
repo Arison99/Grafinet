@@ -13,7 +13,9 @@ def signup(payload: SignupRequest) -> AuthResponse:
         username=payload.username, email=payload.email, password=payload.password
     )
     if not result["success"]:
-        raise HTTPException(status_code=400, detail=result["message"])
+        raise HTTPException(
+            status_code=result.get("status_code", 400), detail=result["message"]
+        )
     return AuthResponse(**result)
 
 
@@ -21,7 +23,9 @@ def signup(payload: SignupRequest) -> AuthResponse:
 def login(payload: LoginRequest) -> AuthResponse:
     result = auth_service.login(username=payload.username, password=payload.password)
     if not result["success"]:
-        raise HTTPException(status_code=401, detail=result["message"])
+        raise HTTPException(
+            status_code=result.get("status_code", 401), detail=result["message"]
+        )
     return AuthResponse(**result)
 
 
