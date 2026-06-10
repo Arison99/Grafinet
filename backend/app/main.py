@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.routes.auth import router as auth_router
 from app.api.routes.ip import router as ip_router
 from app.api.routes.map import router as map_router
 
@@ -22,3 +23,4 @@ def health() -> dict[str, str]:
 
 app.include_router(ip_router, prefix="/api")
 app.include_router(map_router, prefix="/api")
+app.include_router(auth_router, prefix="/api")

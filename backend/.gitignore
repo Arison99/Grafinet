@@ -5,6 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
+.mmdb
 
 # Distribution / packaging
 .Python
@@ -187,4 +188,3 @@ frontend/dist/
 # Grafinet backend runtime data
 backend/data/users.json
 /docs
-.mmdb

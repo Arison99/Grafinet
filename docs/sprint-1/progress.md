@@ -60,6 +60,8 @@ Validation:
 - Backend compile and import checks passed.
 - Auth service functional check passed for signup and login.
 - Frontend production build passed with auth UI changes.
+Notes:
+- Runtime auth data file backend/data/users.json is ignored in .gitignore.
 
 ### Phase 3: Token-Protected API Access
 Status: Complete
@@ -113,6 +115,7 @@ Completed:
   - feature-enhancement branch commits
   - PR creation flow
   - intentional merge conflict demonstration
+- Added commit message map to reach assignment minimum commit count.
 
 Reference:
 - docs/sprint-1/git-commands-plan.md
@@ -128,7 +131,9 @@ Completed:
 - Produced meaningful incremental commits across both feature branches.
 
 Validation:
+- Working tree is clean after commits.
 - Branch list includes dev, main, feature-ui, feature-enhancement.
+- Recent commit history confirms backend, auth, testing, and documentation evolution.
 
 ### Phase 8: Remote Sync and Repository Cleanup
 Status: Complete
