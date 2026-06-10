@@ -32,7 +32,7 @@ Grafinet is a web-based system that visualizes internet routing information from
 1. Start backend on port 8000
 2. Start frontend on port 5173
 3. Open the frontend URL in browser
-4. Search for IPs such as 8.8.8.8 or 1.1.1.1
+4. Search for IPv4 examples 8.8.8.8 and 1.1.1.1, then test invalid input handling for assignment evidence
 5. Review ASN, prefix, and anomaly details in the panel and map popup
 
 ## Contributors
