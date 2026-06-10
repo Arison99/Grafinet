@@ -8,11 +8,32 @@ from app.main_state import auth_service
 from app.services.auth_service import AuthService
 
 
-def _reset_auth_service_with_temp_store() -> Path:
-    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".json")
+def _cleanup_temp_store(path: Path) -> None:
+    if not path.exists():
+        return
+    try:
+        path.unlink()
+    except PermissionError:
+        # Windows may keep temporary SQLite file handles briefly.
+        pass
+
+
+def _reset_auth_service_with_temp_store(
+    token_ttl_seconds: int = 86400,
+    max_failed_attempts: int = 5,
+    lockout_seconds: int = 300,
+) -> Path:
+    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".db")
     tmp_path = Path(tmp.name)
     tmp.close()
-    auth_service.__dict__.update(AuthService(tmp_path).__dict__)
+    auth_service.__dict__.update(
+        AuthService(
+            db_path=tmp_path,
+            token_ttl_seconds=token_ttl_seconds,
+            max_failed_attempts=max_failed_attempts,
+            lockout_seconds=lockout_seconds,
+        ).__dict__
+    )
     return tmp_path
 
 
@@ -57,8 +78,7 @@ def test_signup_login_and_logout_flow():
     ip_after_logout = client.get("/api/ip/8.8.8.8", headers=_auth_header(token))
     assert ip_after_logout.status_code == 401
 
-    if temp_store.exists():
-        temp_store.unlink()
+    _cleanup_temp_store(temp_store)
 
 
 def test_protected_routes_require_auth_header():
@@ -92,5 +112,57 @@ def test_login_rejects_wrong_password():
 
     assert bad_login.status_code == 401
 
-    if temp_store.exists():
-        temp_store.unlink()
+    _cleanup_temp_store(temp_store)
+
+
+def test_expired_token_is_rejected():
+    temp_store = _reset_auth_service_with_temp_store(token_ttl_seconds=0)
+    client = TestClient(app)
+
+    signup_response = client.post(
+        "/api/auth/signup",
+        json={
+            "username": "tester03",
+            "email": "tester03@example.com",
+            "password": "password123",
+        },
+    )
+    assert signup_response.status_code == 200
+    token = signup_response.json()["token"]
+
+    protected_call = client.get("/api/ip/8.8.8.8", headers=_auth_header(token))
+    assert protected_call.status_code == 401
+
+    _cleanup_temp_store(temp_store)
+
+
+def test_login_lockout_after_repeated_failures():
+    temp_store = _reset_auth_service_with_temp_store(
+        max_failed_attempts=3, lockout_seconds=120
+    )
+    client = TestClient(app)
+
+    client.post(
+        "/api/auth/signup",
+        json={
+            "username": "tester04",
+            "email": "tester04@example.com",
+            "password": "password123",
+        },
+    )
+
+    for _ in range(3):
+        response = client.post(
+            "/api/auth/login",
+            json={"username": "tester04", "password": "wrongpass123"},
+        )
+
+    assert response.status_code == 429
+
+    blocked = client.post(
+        "/api/auth/login",
+        json={"username": "tester04", "password": "password123"},
+    )
+    assert blocked.status_code == 429
+
+    _cleanup_temp_store(temp_store)

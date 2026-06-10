@@ -11,17 +11,71 @@ except ImportError:  # pragma: no cover
 
 
 class IPNetDBLoader:
-    def __init__(self, prefix_path: Path, asn_path: Path) -> None:
+    def __init__(
+        self,
+        prefix_path: Path,
+        asn_path: Path,
+        geolite2_asn_path: Path | None = None,
+        geolite2_city_path: Path | None = None,
+        geolite2_country_path: Path | None = None,
+    ) -> None:
         self.prefix_db = self._open_db(prefix_path)
         self.asn_db = self._open_db(asn_path)
+        self.geolite2_asn_db = self._open_db(geolite2_asn_path)
+        self.geolite2_city_db = self._open_db(geolite2_city_path)
+        self.geolite2_country_db = self._open_db(geolite2_country_path)
 
-    def _open_db(self, path: Path) -> Any:
+    def _open_db(self, path: Path | None) -> Any:
+        if path is None:
+            return None
         if not path.exists() or maxminddb is None:
             return None
         try:
             return maxminddb.open_database(str(path))
         except Exception:
             return None
+
+    def lookup_geo_asn_ip(self, ip: str) -> dict[str, Any] | None:
+        try:
+            ipaddress.ip_address(ip)
+        except ValueError:
+            return None
+
+        if self.geolite2_asn_db is None:
+            return None
+
+        data = self.geolite2_asn_db.get(ip)
+        if isinstance(data, dict):
+            return data
+        return None
+
+    def lookup_geo_country_ip(self, ip: str) -> dict[str, Any] | None:
+        try:
+            ipaddress.ip_address(ip)
+        except ValueError:
+            return None
+
+        if self.geolite2_country_db is None:
+            return None
+
+        data = self.geolite2_country_db.get(ip)
+        if isinstance(data, dict):
+            return data
+        return None
+
+    def lookup_geo_city_ip(self, ip: str) -> dict[str, Any] | None:
+        try:
+            ipaddress.ip_address(ip)
+        except ValueError:
+            return None
+
+        if self.geolite2_city_db is None:
+            return None
+
+        data = self.geolite2_city_db.get(ip)
+        if isinstance(data, dict):
+            return data
+        return None
 
     def lookup_ip(self, ip: str) -> dict[str, Any] | None:
         try:
@@ -44,11 +98,89 @@ class IPNetDBLoader:
         if self.asn_db is None:
             return None
 
-        key = str(asn)
-        data = self.asn_db.get(key)
+        query_ip = self._asn_to_lookup_ip(asn)
+        if query_ip is None:
+            return None
+
+        data = self.asn_db.get(query_ip)
         if isinstance(data, dict):
             return data
         return None
+
+    def iter_country_asns(self, country: str) -> list[dict[str, Any]]:
+        if self.prefix_db is None:
+            return []
+
+        country_code = (country or "").strip().upper()
+        if not country_code:
+            return []
+
+        aggregate: dict[int, dict[str, Any]] = {}
+
+        for network, data in self.prefix_db:
+            if not isinstance(data, dict):
+                continue
+
+            record_country = (
+                str(data.get("allocation_cc") or data.get("prefix_cc") or "")
+                .strip()
+                .upper()
+            )
+            if record_country != country_code:
+                continue
+
+            asn_candidates: list[int] = []
+            primary_asn = data.get("as")
+            if primary_asn is not None:
+                try:
+                    asn_candidates.append(int(primary_asn))
+                except (TypeError, ValueError):
+                    pass
+
+            origins = data.get("prefix_origins")
+            if origins is not None:
+                if not isinstance(origins, list):
+                    origins = [origins]
+                for item in origins:
+                    try:
+                        asn_candidates.append(int(item))
+                    except (TypeError, ValueError):
+                        continue
+
+            for asn in asn_candidates:
+                if asn <= 0:
+                    continue
+                entry = aggregate.get(asn)
+                if entry is None:
+                    aggregate[asn] = {
+                        "country": country_code,
+                        "asn": asn,
+                        "entity": data.get("as_entity") or data.get("as_name") or "Unknown",
+                        "sample_ip": str(network.network_address),
+                        "sample_prefix": str(network),
+                        "prefix_count": 1,
+                    }
+                else:
+                    entry["prefix_count"] += 1
+
+        return list(aggregate.values())
+
+    def _asn_to_lookup_ip(self, asn: int | str) -> str | None:
+        try:
+            if isinstance(asn, str):
+                normalized = asn.strip().upper()
+                if normalized.startswith("AS"):
+                    normalized = normalized[2:]
+                asn_int = int(normalized)
+            else:
+                asn_int = int(asn)
+        except (TypeError, ValueError):
+            return None
+
+        if asn_int < 0 or asn_int > (2**32 - 1):
+            return None
+
+        return str(ipaddress.ip_address(asn_int))
 
     def _fallback_ip(self, ip: str) -> dict[str, Any] | None:
         sample = {

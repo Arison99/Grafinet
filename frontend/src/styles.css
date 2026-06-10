@@ -1,182 +1,63 @@
-:root {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #1f2937;
-  background: #f3f4f6;
-}
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
-* {
-  box-sizing: border-box;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body {
-  margin: 0;
-}
-
-.layout {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  gap: 12px;
-  padding: 16px;
-}
-
-h1 {
-  margin: 0;
-}
-
-header p {
-  margin: 6px 0 0;
-}
-
-.session-bar {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  background: #ffffff;
-}
-
-.session-bar button {
-  border: none;
-  border-radius: 6px;
-  background: #1f2937;
-  color: #fff;
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.auth-card {
-  max-width: 480px;
-  margin: 0 auto;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  background: #fff;
-  padding: 16px;
-}
-
-.auth-card h2 {
-  margin: 0;
-}
-
-.auth-subtitle {
-  margin: 8px 0 14px;
-  color: #4b5563;
-}
-
-.auth-form {
-  display: grid;
-  gap: 10px;
-}
-
-.auth-form label {
-  display: grid;
-  gap: 6px;
-  font-weight: 600;
-}
-
-.auth-form input {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-}
-
-.auth-form button {
-  border: none;
-  border-radius: 8px;
-  background: #0f766e;
-  color: #fff;
-  padding: 10px 14px;
-  cursor: pointer;
-}
-
-.auth-switch {
-  margin-top: 12px;
-  background: transparent;
-  color: #0f766e;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.search {
-  display: flex;
-  gap: 8px;
-}
-
-.search input {
-  flex: 1;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-}
-
-.search button {
-  border: none;
-  border-radius: 8px;
-  background: #0f766e;
-  color: #fff;
-  padding: 10px 14px;
-  cursor: pointer;
-}
-
-.search button:disabled {
-  opacity: 0.65;
-  cursor: wait;
-}
-
-.content {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 12px;
-  min-height: 60vh;
-}
-
-.map-shell {
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid #e5e7eb;
-}
-
-.map-canvas {
-  height: 100%;
-  min-height: 420px;
-}
-
-.panel {
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 14px;
-  background: #fff;
-}
-
-.panel h2 {
-  margin-top: 0;
-}
-
-.panel p {
-  margin: 8px 0;
-}
-
-.panel.muted {
-  color: #6b7280;
-}
-
-.panel.error {
-  border-color: #fecaca;
-  background: #fef2f2;
-  color: #b91c1c;
-}
-
-@media (max-width: 900px) {
-  .content {
-    grid-template-columns: 1fr;
+@layer base {
+  body {
+    @apply bg-slate-100 text-slate-800 antialiased;
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.17), transparent 30%),
+      radial-gradient(circle at 100% 0%, rgba(16, 185, 129, 0.14), transparent 35%);
+    min-height: 100vh;
   }
 
-  .map-canvas {
-    min-height: 340px;
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fade-up 500ms ease-out both;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 450ms ease-out both;
+  }
+
+  .stagger-1 {
+    animation-delay: 90ms;
+  }
+
+  .stagger-2 {
+    animation-delay: 160ms;
+  }
+
+  .stagger-3 {
+    animation-delay: 230ms;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

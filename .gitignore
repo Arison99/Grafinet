@@ -186,5 +186,7 @@ frontend/dist/
 
 # Grafinet backend runtime data
 backend/data/users.json
+backend/data/auth.db
 /docs
 .mmdb
+.db
