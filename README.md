@@ -32,7 +32,7 @@ Grafinet is a web-based system that visualizes internet routing information from
 1. Start backend on port 8000
 2. Start frontend on port 5173
 3. Open the frontend URL in browser
-4. Search for IPs such as 8.8.8.8 or 1.1.1.1
+4. Search for 8.8.8.8, 1.1.1.1, and 9.9.9.9, then include one invalid IP test to capture error-handling evidence
 5. Review ASN, prefix, and anomaly details in the panel and map popup
 
 ## Contributors
@@ -42,3 +42,11 @@ Grafinet is a web-based system that visualizes internet routing information from
 ## Attribution
 
 Internet information provided by IPNetDB.com
+
+## Merge Conflict Resolution Process
+
+1. Branches used: conflict-a and conflict-b
+2. File with conflict: README.md
+3. Conflict observed during merge: same Usage step edited in both branches
+4. Resolution decision: combined both intents into one instruction that covers sample valid IP tests and invalid input validation
+5. Verification after merge: README rendered correctly and conflict markers were removed before committing

@@ -28,6 +28,80 @@ header p {
   margin: 6px 0 0;
 }
 
+.session-bar {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+}
+
+.session-bar button {
+  border: none;
+  border-radius: 6px;
+  background: #1f2937;
+  color: #fff;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.auth-card {
+  max-width: 480px;
+  margin: 0 auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px;
+}
+
+.auth-card h2 {
+  margin: 0;
+}
+
+.auth-subtitle {
+  margin: 8px 0 14px;
+  color: #4b5563;
+}
+
+.auth-form {
+  display: grid;
+  gap: 10px;
+}
+
+.auth-form label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.auth-form input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.auth-form button {
+  border: none;
+  border-radius: 8px;
+  background: #0f766e;
+  color: #fff;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.auth-switch {
+  margin-top: 12px;
+  background: transparent;
+  color: #0f766e;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
 .search {
   display: flex;
   gap: 8px;

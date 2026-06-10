@@ -60,7 +60,6 @@ Validation:
 - Backend compile and import checks passed.
 - Auth service functional check passed for signup and login.
 - Frontend production build passed with auth UI changes.
-
 Notes:
 - Runtime auth data file backend/data/users.json is ignored in .gitignore.
 
@@ -121,7 +120,7 @@ Completed:
 Reference:
 - docs/sprint-1/git-commands-plan.md
 
-### Phase 7: Branch Execution Completed (Local)
+### Phase 7: Branch Execution Completed
 Status: Complete
 
 Completed:
@@ -136,5 +135,31 @@ Validation:
 - Branch list includes dev, main, feature-ui, feature-enhancement.
 - Recent commit history confirms backend, auth, testing, and documentation evolution.
 
-Blocker:
-- No git remote is configured yet, so pushes and Pull Requests cannot be created until a remote repository is added.
+### Phase 8: Remote Sync and Repository Cleanup
+Status: Complete
+
+Completed:
+- Removed oversized MMDB blob from history and force-pushed rewritten branches.
+- Removed tracked frontend/node_modules and dist history and force-pushed rewritten branches.
+
+Validation:
+- Push operations succeeded after cleanup.
+- Largest remaining git object is below GitHub 100MB limit.
+
+### Phase 9: Merge Conflict Demonstration and Resolution
+Status: Complete
+
+Completed:
+- Created and pushed conflict branches:
+  - conflict-a
+  - conflict-b
+- Merged conflict-a into main.
+- Triggered a real README conflict by merging conflict-b.
+- Resolved conflict and committed final merged content on main.
+- Added "Merge Conflict Resolution Process" section to README.
+
+Validation:
+- Main branch updated and pushed after conflict resolution.
+
+Current blocker:
+- GitHub CLI auth token is invalid, so PRs cannot be auto-created via gh until re-authenticated.
